@@ -9,11 +9,15 @@
 import React from 'react';
 import type { Node } from 'react';
 import {
+  Image,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
   useColorScheme,
   View,
 } from 'react-native';
@@ -63,13 +67,42 @@ const App: () => Node = () => {
 
   return (
     <ScrollView style={backgroundStyle}>
-      <Text style={{
-        fontSize: 20,
-        color: 'black',
-        fontWeight: '400',
-        textAlign: "center",
-      }}>Some text</Text>
-    </ScrollView>
+      <SafeAreaView>
+        <View>
+          <Text style={{
+            fontSize: 25,
+            color: 'black',
+            fontWeight: '700',
+            textAlign: "center",
+          }}>Puzzle App</Text>
+        </View>
+        <View style={[styles.inputContainer]}>
+          <Text onPress={() => console.log("Image Tapped")} style={{
+            fontSize: 12,
+            color: 'black',
+            marginLeft: 5,
+          }}>Puzzle Size</Text>
+          <TextInput
+            style={[styles.inputContainer]}
+            // defaultValue="Enter Puzzle Size"
+            placeholder="Enter Puzzle Size"
+          />
+        </View>
+        {/* Local Image */}
+        {/* <Image source={require('./assets/starCircleBrown.png')}/> */}
+        {/* <TouchableOpacity onPress={() => console.log("Image Tapped")}> */}
+          {/* Network Image */}
+          {/* <Image
+            blurRadius={5}
+            fadeDuration={1000}
+            source={{
+              width: 200,
+              height: 200,
+              uri: 'https://picsum.photos/200/300'
+            }} /> */}
+        {/* </TouchableOpacity> */}
+      </SafeAreaView>
+    </ScrollView >
   );
 };
 
@@ -90,6 +123,22 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+  inputContainer: {
+    borderWidth: 1,
+    borderColor: "#e4e4e7",
+    borderRadius: 6,
+    padding: 5,
+    marginTop: 8,
+    marginLeft: 4,
+    marginRight: 4,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    backgroundColor: "white",
+    padding: 10
+  }
 });
 
 export default App;
