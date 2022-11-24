@@ -113,57 +113,47 @@ const App: () => Node = () => {
     return dup[parseInt(Math.random() * 5)]
   }
 
-  const handleInput = () => {
-    console.log("e")
-    // alert("Button tapped")
-    // Alert.alert("Button", "Wow..!", [{ text: "Yes", onPress: () => console.log("Yes") }, { text: "No", onPress: () => console.log("No") }])
-    // Alert.prompt("Button", "Wow..!", (text) => console.log(text)) // // only works in IOS
-    // setPuzzleDifficulty(e.target.value);
-    // setpuzzleSource(setRandomImage());
-    // setRunning(false);
+  const handleInput = (value) => {
+    setPuzzleDifficulty(value);
+    setpuzzleSource(setRandomImage());
+    setRunning(false);
   }
 
   const handleCreatePuzzle = () => {
+    console.log("puzzleDifficulty",puzzleDifficulty)
     if (running !== true) {
       setRunning(true);
-    }
+    }4
   }
 
   return (
     <ScrollView style={backgroundStyle}>
       <SafeAreaView>
         <View>
-          <Text style={{
-            fontSize: 25,
-            color: 'black',
-            fontWeight: '700',
-            textAlign: "center",
-          }}>Puzzle App</Text>
+          <Text style={styles.title}>Puzzle App</Text>
         </View>
-        <View style={[styles.inputContainer]}>
-          <Text onPress={() => console.log("Image Tapped")} style={{
+        <View style={styles.inputContainer}>
+          <Text style={{
             fontSize: 12,
             color: 'black',
             marginLeft: 5,
           }}>Puzzle Size</Text>
           <TextInput
-            style={[styles.inputContainer]}
-            // defaultValue="Enter Puzzle Size"
+            style={styles.inputContainer}
             placeholder="Enter Puzzle Size"
+            onChangeText={(text) => {
+              setPuzzleDifficulty(text);
+              setpuzzleSource(setRandomImage());
+              setRunning(false);
+            }}
+            defaultValue={puzzleDifficulty}
           />
         </View>
         <TouchableWithoutFeedback
-          style={{ backgroundColor: 'red' }}
-          onPress={() => { handleInput() }}>
-          <Text style={{
-            fontSize: 15,
-            color: 'white',
-            fontWeight: '400',
-            textAlign: "center",
-            backgroundColor: 'red',
-            // width: "20px"
-          }}>Create Puzzle</Text>
+          onPress={() => { handleCreatePuzzle() }}>
+          <Text style={styles.button}>Create Puzzle</Text>
         </TouchableWithoutFeedback>
+        {/* <Canvas */}
       </SafeAreaView>
     </ScrollView >
   );
@@ -186,6 +176,19 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+  alignCenter: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+
+  },
+  title: {
+    fontSize: 30,
+    color: 'black',
+    fontWeight: '700',
+    textAlign: "center",
+    marginTop: 10,
+  },
   inputContainer: {
     borderWidth: 1,
     borderColor: "#e4e4e7",
@@ -203,8 +206,20 @@ const styles = StyleSheet.create({
     padding: 10
   },
   button: {
-    width: '20px',
+    fontSize: 12,
+    color: 'white',
+    fontWeight: '400',
+    textAlign: "center",
+    backgroundColor: 'red',
+    height: 30,
+    width: 100,
     backgroundColor: '#1e293b',
+    textAlignVertical: 'center',
+    paddingHorizontal: 'auto',
+    borderWidth: 1,
+    borderRadius: 4,
+    marginLeft: 6,
+    marginTop: 10,
   }
 });
 
