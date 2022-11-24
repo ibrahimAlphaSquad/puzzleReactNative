@@ -6,9 +6,11 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type { Node } from 'react';
 import {
+  Alert,
+  Button,
   Image,
   SafeAreaView,
   ScrollView,
@@ -64,6 +66,68 @@ const App: () => Node = () => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+  // Modal
+  const [welcomeModal, setWelcomeModal] = useState(false)
+  const [welcomeConfitte, setWelcomeConfitte] = useState(false)
+  const [puzzleDifficulty, setPuzzleDifficulty] = useState(null)
+  const [puzzleSource, setpuzzleSource] = useState("")
+
+  // Timer
+  const [time, setTime] = useState(0);
+  const [running, setRunning] = useState(false);
+
+  useEffect(() => {
+    let interval;
+    if (running) {
+      interval = setInterval(() => {
+        setTime((prevTime) => prevTime + 10);
+      }, 10);
+    } else if (!running) {
+      clearInterval(interval);
+    }
+    // console.log(Math.floor((time / 60000) % 60))
+    return () => clearInterval(interval);
+  }, [running]);
+
+
+  function setRandomImage() {
+    // 800 x 533
+    // let dup = [
+    //   "https://tuk-cdn.s3.amazonaws.com/can-uploader/1903-Panhard-et-Levassor_2-800x533.jpg",
+    //   "https://tuk-cdn.s3.amazonaws.com/can-uploader/1957-Ferrari-500-TRC_1-800x533.jpg",
+    //   "https://tuk-cdn.s3.amazonaws.com/can-uploader/arcane.jpg",
+    //   "https://tuk-cdn.s3.amazonaws.com/can-uploader/image1.jpg",
+    //   "https://tuk-cdn.s3.amazonaws.com/can-uploader/arcane.jpg"
+    // ]
+
+    // 600 x 400
+    let dup = [
+      "https://tuk-cdn.s3.amazonaws.com/can-uploader/avatar.jpg",
+      "https://tuk-cdn.s3.amazonaws.com/can-uploader/eagle.jpg",
+      "https://tuk-cdn.s3.amazonaws.com/can-uploader/lilly.jpg",
+      "https://tuk-cdn.s3.amazonaws.com/can-uploader/lion-king.jpg",
+      "https://tuk-cdn.s3.amazonaws.com/can-uploader/Rango-riding.jpg",
+      "https://tuk-cdn.s3.amazonaws.com/can-uploader/Timon-And-Pumbaa.png"
+    ]
+
+    return dup[parseInt(Math.random() * 5)]
+  }
+
+  const handleInput = () => {
+    console.log("e")
+    // alert("Button tapped")
+    // Alert.alert("Button", "Wow..!", [{ text: "Yes", onPress: () => console.log("Yes") }, { text: "No", onPress: () => console.log("No") }])
+    // Alert.prompt("Button", "Wow..!", (text) => console.log(text)) // // only works in IOS
+    // setPuzzleDifficulty(e.target.value);
+    // setpuzzleSource(setRandomImage());
+    // setRunning(false);
+  }
+
+  const handleCreatePuzzle = () => {
+    if (running !== true) {
+      setRunning(true);
+    }
+  }
 
   return (
     <ScrollView style={backgroundStyle}>
@@ -88,19 +152,18 @@ const App: () => Node = () => {
             placeholder="Enter Puzzle Size"
           />
         </View>
-        {/* Local Image */}
-        {/* <Image source={require('./assets/starCircleBrown.png')}/> */}
-        {/* <TouchableOpacity onPress={() => console.log("Image Tapped")}> */}
-          {/* Network Image */}
-          {/* <Image
-            blurRadius={5}
-            fadeDuration={1000}
-            source={{
-              width: 200,
-              height: 200,
-              uri: 'https://picsum.photos/200/300'
-            }} /> */}
-        {/* </TouchableOpacity> */}
+        <TouchableWithoutFeedback
+          style={{ backgroundColor: 'red' }}
+          onPress={() => { handleInput() }}>
+          <Text style={{
+            fontSize: 15,
+            color: 'white',
+            fontWeight: '400',
+            textAlign: "center",
+            backgroundColor: 'red',
+            // width: "20px"
+          }}>Create Puzzle</Text>
+        </TouchableWithoutFeedback>
       </SafeAreaView>
     </ScrollView >
   );
@@ -138,6 +201,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: "white",
     padding: 10
+  },
+  button: {
+    width: '20px',
+    backgroundColor: '#1e293b',
   }
 });
 
