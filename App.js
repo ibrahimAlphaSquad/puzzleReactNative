@@ -59,13 +59,22 @@ const App = () => {
           y: pan.y._value,
         });
       },
-      onPanResponderMove: Animated.event([null, {dx: pan.x, dy: pan.y}]),
+      // onPanResponderMove: Animated.event([null, {dx: pan.x, dy: pan.y}]),
+      onPanResponderMove: (_, gesture) => {
+        // console.log('gesture', gesture);
+        // console.log('pan.x', pan.x_value);
+        pan.x._value = gesture.dx,
+        pan.y._value = gesture.dy
+        // console.log('pan', pan.current);
+      },
       onPanResponderRelease: () => {
         pan.flattenOffset();
       },
     }),
-  ).current;
+    ).current;
 
+    console.log('pan', pan);
+    
   const imgArray = [
     {
       id: 1,
@@ -135,10 +144,10 @@ const App = () => {
                     styles.alignCenter,
                     styles.borderStyles,
                     {marginLeft: 20, marginTop: 20},
-                    // {
-                    //   transform: [{translateX: pan.x}, {translateY: pan.y}],
-                    // },
-                    pan.getLayout()
+                    {
+                      transform: [{translateX: pan.x}, {translateY: pan.y}],
+                    },
+                    // pan.getLayout(),
                   ]}
                   {...panResponder.panHandlers}>
                   <Image source={item.img} style={{width: 100, height: 100}} />
